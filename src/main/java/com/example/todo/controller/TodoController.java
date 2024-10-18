@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.time.LocalDate;
 @Controller
 @RequestMapping("/todos")
 public class TodoController {
@@ -16,9 +17,10 @@ public class TodoController {
         return "index";
     }
     @PostMapping
-    public String addTodo(@RequestParam String description, @RequestParam
-    String priority) {
-        todoList.add(new Todo(idCounter++, description, priority));
+    public String addTodo(@RequestParam String description,
+                          @RequestParam String priority,
+                          @RequestParam LocalDate dueDate) {
+        todoList.add(new Todo(idCounter++, description, priority, dueDate));
         return "redirect:/todos";
     }
     @PostMapping("/complete/{id}")
