@@ -6,13 +6,16 @@
 <body>
 <h1>待办事项列表</h1>
 <form action="/todos" method="post">
-    <input type="text" name="description" placeholder="输入待办事项" required>
+    <input type="text" name="description" placeholder="输入待办事项"
+           required>
+    <input type="date" name="dueDate">
     <button type="submit">添加</button>
 </form>
 <ul>
     <#list todos as todo>
     <li>
-        <span>${todo.description}</span>
+
+        <span>${todo.description}</span>  - 截止日期: <span>${todo.dueDate}</span>
         <#if !todo.completed> <!-- 确保这里使用正确的属性名 -->
             <form action="/todos/complete/${todo.id}" method="post"
                   style="display:inline;">
