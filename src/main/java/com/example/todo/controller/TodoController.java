@@ -16,8 +16,9 @@ public class TodoController {
         return "index";
     }
     @PostMapping
-    public String addTodo(@RequestParam String description) {
-        todoList.add(new Todo(idCounter++, description));
+    public String addTodo(@RequestParam String description, @RequestParam
+    String priority) {
+        todoList.add(new Todo(idCounter++, description, priority));
         return "redirect:/todos";
     }
     @PostMapping("/complete/{id}")
