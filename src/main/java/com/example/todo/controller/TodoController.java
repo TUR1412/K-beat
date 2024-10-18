@@ -23,7 +23,7 @@ public class TodoController {
     @PostMapping("/complete/{id}")
     public String completeTodo(@PathVariable Long id) {
         todoList.stream()
-                .filter(todo -> todo.getClass().equals(id))
+                .filter(todo -> todo.getId().equals(id))
                 .findFirst()
                 .ifPresent(todo -> todo.setCompleted(true));
         return "redirect:/todos";
