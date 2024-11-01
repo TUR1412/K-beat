@@ -12,7 +12,7 @@
         <option value="medium">中</option>
         <option value="low">低</option>
     </select>
-    <input type="date" name="due_date" required>
+    <input type="date" name="dueDate" required>
     <button type="submit">添加</button>
 </form>
 <ul>
