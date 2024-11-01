@@ -27,7 +27,6 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      # 新增步骤，给 `mvnw` 文件赋予执行权限
       - name: Grant execute permission for Maven wrapper
         run: chmod +x ./mvnw
 
@@ -48,7 +47,6 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      # 新增步骤，给 `mvnw` 文件赋予执行权限
       - name: Grant execute permission for Maven wrapper
         run: chmod +x ./mvnw
 
@@ -73,7 +71,7 @@ jobs:
         run: chmod +x ./mvnw
 
       - name: Build Docker Image
-        run: docker build -t your-dockerhub-username/your-image-name:latest .
+        run: docker build -t kong90/todo-app:latest .
 
       - name: Log in to Docker Hub
         env:
@@ -82,4 +80,4 @@ jobs:
         run: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
       - name: Push Docker Image
-        run: docker push your-dockerhub-username/your-image-name:latest
+        run: docker push kong90/todo-app:latest
