@@ -20,7 +20,7 @@ public class TodoController {
     private final TodoService todoService;
     private final String assetsVersion;
 
-    public TodoController(TodoService todoService, @Value("${app.assets.version}") String assetsVersion) {
+    public TodoController(TodoService todoService, @Value("${app.assets.version:dev}") String assetsVersion) {
         this.todoService = todoService;
         this.assetsVersion = assetsVersion;
     }
@@ -62,6 +62,19 @@ public class TodoController {
             todoService.markCompleted(id);
             redirectAttributes.addFlashAttribute("toastType", "success");
             redirectAttributes.addFlashAttribute("toastMessage", "已标记完成");
+        } catch (TodoNotFoundException e) {
+            redirectAttributes.addFlashAttribute("toastType", "error");
+            redirectAttributes.addFlashAttribute("toastMessage", e.getMessage());
+        }
+        return "redirect:/todos";
+    }
+
+    @PostMapping("/todos/reopen/{id}")
+    public String reopenTodo(@PathVariable long id, RedirectAttributes redirectAttributes) {
+        try {
+            todoService.reopen(id);
+            redirectAttributes.addFlashAttribute("toastType", "success");
+            redirectAttributes.addFlashAttribute("toastMessage", "已撤销完成");
         } catch (TodoNotFoundException e) {
             redirectAttributes.addFlashAttribute("toastType", "error");
             redirectAttributes.addFlashAttribute("toastMessage", e.getMessage());

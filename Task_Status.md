@@ -1,23 +1,26 @@
-# [GKB-NUKE-20251217] 任务看板
-> **环境**: Windows 11 (pwsh -NoLogo -NoProfile -Command '...') | **框架**: 纯静态站点 (HTML/CSS/JS) | **档位**: 4档 (Architect)
-> **已激活矩阵**: [模块 A: 视觉矫正] + [模块 E: 幽灵防御] + [模块 B: 奥卡姆直通]
+# [KBEAT-NUKE-20251217] 任务看板
+> **环境**: Windows 11 (`pwsh -NoLogo -NoProfile -Command '...'`) | **框架**: Spring Boot 3 + FreeMarker | **档位**: 4档 (Architect)
+> **已激活矩阵**: [模块 A: 视觉矫正] + [模块 B: 逻辑直通] + [模块 E: 幽灵防御]
 
 ## 1. 需求镜像 (Requirement Mirroring)
-> **我的理解**: 对 `https://github.com/TUR1412/GameKnowledge-Base.git` 做“核弹级”优化与美化（UI/UX 统一、链接与资源修复、性能与可维护性增强），完成后推送到远程仓库；然后删除 `C:\wooK\GameKnowledge-Base` 本地克隆目录。
-> **不做什么**: 不会后台启动任何长期服务进程（不抢占端口）；不引入重型框架/构建链强行改变部署方式（保持静态可直接托管）。
+> **我的理解**: 对 `TUR1412/K-beat` 做“原子弹级”优化升级（体验/稳健性/工程化），完成 **原子级审查** 后推送到远程仓库；最后删除本地克隆目录 `C:\wooK\K-beat`。
+> **不做什么**: 不在后台启动任何长期服务进程；不抢占端口；不把 JSON/异常堆栈裸露在 UI 主区域。
 
 ## 2. 进化知识库 (Evolutionary Knowledge - Ω)
-- [!] (发现) 现有页面存在大量指向不存在的 `.html` 页面链接，导致导航断裂。
-- [!] (发现) 多个 SVG 图标资源在页面中被引用但仓库中不存在，出现破图。
-- [!] (发现) `scripts.js` 粒子效果为每个粒子创建 `setInterval`，有明显 CPU/内存浪费空间。
-- [!] (发现) `styles.css` 内存在变量命名不一致（如 `--text-primary/--text-secondary` 未定义），以及重复/覆盖样式段落，导致维护成本高。
+- [!] (体验) 已完成支持“撤销”，避免误触造成不可逆。
+- [!] (体验) 逾期/今天到期需要显式提醒（不依赖 JS 也可见）。
+- [!] (稳健) H2 file 模式依赖 `data/` 目录存在，需要启动时预创建。
+- [!] (安全/体验) API 统一返回“人话错误”，并提供 `actionable_suggestion`；避免非预期异常裸露。
+- [!] (工程) CI 增加并发治理与自动依赖更新（Dependabot），减少维护摩擦。
 
 ## 3. 执行清单 (Execution)
-- [ ] 1. 统一页面布局与导航（含移动端与主题切换）
-- [ ] 2. 修复断链与破图（用动态详情页承接缺失内容）
-- [ ] 3. 优化交互动效与性能（粒子/动画/hover 去 JS 化）
-- [ ] 4. 增强可访问性与 SEO（skip link、meta、focus、空状态）
-- [ ] 5. 有限验证（`node --check` / 链接与资源自检脚本）
-- [ ] 6. 提交并推送到远程
-- [ ] 7. 删除本地克隆目录（仅限 `C:\wooK\GameKnowledge-Base`）
+- [x] 1. 原子级审查（UI/逻辑/工程/CI）并列出清单
+- [x] 2. 增加“撤销完成”（UI + API + Service + Tests）
+- [x] 3. 增加“逾期/今日到期”高亮（SSR + JS 渐进增强）
+- [x] 4. 增加友好错误页（避免 Whitelabel/StackTrace）
+- [x] 5. 增加 H2 `data/` 目录预创建（仅 file 模式触发）
+- [x] 6. 工程化增强（CI 并发/权限、Dependabot）
+- [x] 7. 有限验证（`./mvnw test` / `./mvnw -DskipTests package`）
+- [x] 8. 提交并推送到远程
+- [x] 9. 删除本地克隆目录（仅限 `C:\wooK\K-beat`）
 

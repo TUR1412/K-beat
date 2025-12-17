@@ -48,6 +48,11 @@ public class TodoApiController {
         return TodoDto.from(todoService.markCompleted(id));
     }
 
+    @PostMapping("/{id}/reopen")
+    public TodoDto reopen(@PathVariable long id) {
+        return TodoDto.from(todoService.reopen(id));
+    }
+
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable long id) {

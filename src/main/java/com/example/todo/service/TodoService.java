@@ -53,15 +53,24 @@ public class TodoService {
 
     @Transactional
     public Todo markCompleted(long id) {
-        Todo todo = todoRepository.findById(id).orElseThrow(() -> new TodoNotFoundException(id));
-        todo.setCompleted(true);
-        return todoRepository.save(todo);
+        return setCompleted(id, true);
+    }
+
+    @Transactional
+    public Todo reopen(long id) {
+        return setCompleted(id, false);
     }
 
     @Transactional
     public void delete(long id) {
         Todo todo = todoRepository.findById(id).orElseThrow(() -> new TodoNotFoundException(id));
         todoRepository.delete(todo);
+    }
+
+    private Todo setCompleted(long id, boolean completed) {
+        Todo todo = todoRepository.findById(id).orElseThrow(() -> new TodoNotFoundException(id));
+        todo.setCompleted(completed);
+        return todoRepository.save(todo);
     }
 
     private static String normalizeDescription(String description) {

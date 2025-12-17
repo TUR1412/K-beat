@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/assets/app.css?v=${assetsVersion}">
     <script src="/assets/app.js?v=${assetsVersion}" defer></script>
 </head>
-<body>
+<body data-today="${today?string('yyyy-MM-dd')}">
 <header class="topbar" role="banner">
     <div class="brand">
         <div class="brand-mark" aria-hidden="true">K</div>
@@ -129,20 +129,37 @@
                         <button class="btn btn--ghost" type="button" data-focus-input>立即添加</button>
                     </li>
                 <#else>
+                    <#assign todayIso = today?string('yyyy-MM-dd')>
                     <#list todos as todo>
-                        <li class="todo-item ${todo.isCompleted()?string('is-completed','')}" data-id="${todo.id}"
-                            data-completed="${todo.isCompleted()?c}" data-priority="${todo.priority}" data-due="${todo.dueDate?string('yyyy-MM-dd')}">
+                        <#assign dueIso = todo.dueDate?string('yyyy-MM-dd')>
+                        <#assign dueClass = ''>
+                        <#if !todo.isCompleted() && (dueIso < todayIso)>
+                            <#assign dueClass = 'is-overdue'>
+                        <#elseif !todo.isCompleted() && (dueIso == todayIso)>
+                            <#assign dueClass = 'is-today'>
+                        </#if>
+                        <li class="todo-item ${todo.isCompleted()?string('is-completed','')} ${dueClass}" data-id="${todo.id}"
+                            data-completed="${todo.isCompleted()?c}" data-priority="${todo.priority}" data-due="${dueIso}">
                             <div class="todo-main">
                                 <div class="todo-title">${todo.description?html}</div>
                                 <div class="todo-meta">
                                     <span class="badge ${todo.priority.cssClass}">${todo.priority.label}</span>
-                                    <span class="meta">截止 <time datetime="${todo.dueDate?string('yyyy-MM-dd')}">${todo.dueDate?string('yyyy-MM-dd')}</time></span>
+                                    <#if !todo.isCompleted() && (dueIso < todayIso)>
+                                        <span class="badge badge--overdue" data-due-badge>逾期</span>
+                                    <#elseif !todo.isCompleted() && (dueIso == todayIso)>
+                                        <span class="badge badge--today" data-due-badge>今天</span>
+                                    </#if>
+                                    <span class="meta">截止 <time datetime="${dueIso}">${dueIso}</time></span>
                                 </div>
                             </div>
                             <div class="todo-actions">
                                 <#if !todo.isCompleted()>
                                     <form class="inline-form js-ajax-complete" action="/todos/complete/${todo.id}" method="post">
                                         <button class="btn btn--ghost" type="submit">完成</button>
+                                    </form>
+                                <#else>
+                                    <form class="inline-form js-ajax-reopen" action="/todos/reopen/${todo.id}" method="post">
+                                        <button class="btn btn--ghost" type="submit">撤销</button>
                                     </form>
                                 </#if>
                                 <form class="inline-form js-ajax-delete" action="/todos/delete/${todo.id}" method="post">

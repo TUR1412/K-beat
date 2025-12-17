@@ -6,7 +6,9 @@
 
 - **数据持久化**：使用 H2 文件库，**重启不丢**（默认写入 `./data/`）。
 - **现代 UI**：Aurora 背景 + Glassmorphism 卡片 + Bento 布局，支持 **Dark / Light** 一键切换。
-- **体验优化**：筛选（全部 / 进行中 / 已完成）、统计面板、轻量 Toast 提示。
+- **体验优化**：筛选（全部 / 进行中 / 已完成）、统计面板、轻量 Toast 提示、空状态引导。
+- **到期提示**：待办若 **逾期 / 今天到期** 会自动高亮（完成后自动消失）。
+- **可撤销完成**：已完成条目支持一键“撤销”。
 - **渐进增强**：默认表单提交可用；启用 JS 时自动升级为无刷新操作（不影响可访问性）。
 - **API 提供**：`/api/todos` 提供 JSON API（页面不会直接裸露 JSON）。
 
@@ -49,6 +51,7 @@ java -jar target/k-beat-0.0.1-SNAPSHOT.jar
 - `POST /api/todos`：创建
   - body：`{ "description": "...", "priority": "HIGH|MEDIUM|LOW", "dueDate": "YYYY-MM-DD" }`
 - `POST /api/todos/{id}/complete`：标记完成
+- `POST /api/todos/{id}/reopen`：撤销完成
 - `DELETE /api/todos/{id}`：删除
 
 ## Docker（可选）

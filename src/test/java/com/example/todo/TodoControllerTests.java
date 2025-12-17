@@ -74,6 +74,21 @@ class TodoControllerTests {
     }
 
     @Test
+    void testReopenTodo() throws Exception {
+        LocalDate dueDate = LocalDate.of(2025, 12, 20);
+        Todo todo = todoRepository.save(new Todo("Sleep", TodoPriority.MEDIUM, dueDate));
+        todo.setCompleted(true);
+        todoRepository.save(todo);
+
+        mockMvc.perform(post("/todos/reopen/" + todo.getId()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/todos"));
+
+        Todo updated = todoRepository.findById(todo.getId()).orElseThrow();
+        assertThat(updated.isCompleted()).isFalse();
+    }
+
+    @Test
     void testDeleteTodo() throws Exception {
         LocalDate dueDate = LocalDate.of(2025, 12, 25);
         Todo todo = todoRepository.save(new Todo("Eat", TodoPriority.LOW, dueDate));
