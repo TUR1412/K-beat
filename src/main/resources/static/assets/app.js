@@ -4,7 +4,6 @@
 
   const toastHost = document.getElementById("toastHost");
   const todoList = document.getElementById("todoList");
-  const emptyState = document.getElementById("emptyState");
 
   function safeStorageGet(key) {
     try {
@@ -445,8 +444,9 @@
         return;
       }
 
-      if (emptyState) {
-        emptyState.remove();
+      const currentEmptyState = document.getElementById("emptyState");
+      if (currentEmptyState) {
+        currentEmptyState.remove();
       }
 
       const optimistic = document.createElement("li");

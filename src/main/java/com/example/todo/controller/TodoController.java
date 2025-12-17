@@ -4,7 +4,6 @@ import com.example.todo.model.TodoPriority;
 import com.example.todo.service.TodoNotFoundException;
 import com.example.todo.service.TodoService;
 import java.time.LocalDate;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,11 +17,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class TodoController {
 
     private final TodoService todoService;
-    private final String assetsVersion;
 
-    public TodoController(TodoService todoService, @Value("${app.assets.version:dev}") String assetsVersion) {
+    public TodoController(TodoService todoService) {
         this.todoService = todoService;
-        this.assetsVersion = assetsVersion;
     }
 
     @GetMapping("/")
@@ -33,9 +30,6 @@ public class TodoController {
     @GetMapping("/todos")
     public String getTodos(Model model) {
         model.addAttribute("todos", todoService.listTodos());
-        model.addAttribute("priorities", TodoPriority.values());
-        model.addAttribute("today", LocalDate.now());
-        model.addAttribute("assetsVersion", assetsVersion);
         return "index";
     }
 
