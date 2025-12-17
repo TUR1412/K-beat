@@ -1,32 +1,73 @@
 package com.example.todo.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import java.time.Instant;
 import java.time.LocalDate;
-import java.util.Objects;
 
+@Entity
+@Table(name = "todos")
 public class Todo {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotBlank
+    @Size(max = 200)
+    @Column(nullable = false, length = 200)
     private String description;
-    private boolean isCompleted;
-    private String priority;
+
+    @Column(nullable = false)
+    private boolean completed;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 10)
+    private TodoPriority priority;
+
+    @NotNull
+    @Column(nullable = false)
     private LocalDate dueDate;
 
-    // 构造函数
-    public Todo(Long id, String description, String priority, LocalDate dueDate) {
-        this.id = id;
+    @Column(nullable = false, updatable = false)
+    private Instant createdAt;
+
+    @Column(nullable = false)
+    private Instant updatedAt;
+
+    protected Todo() {}
+
+    public Todo(String description, TodoPriority priority, LocalDate dueDate) {
         this.description = description;
         this.priority = priority;
         this.dueDate = dueDate;
-        this.isCompleted = false;
+        this.completed = false;
     }
-    // 新增的构造函数，包含 isCompleted 参数
-    public Todo(Long id, String description, String priority, LocalDate dueDate, boolean isCompleted) {
-        this.id = id;
-        this.description = description;
-        this.priority = priority;
-        this.dueDate = dueDate;
-        this.isCompleted = isCompleted;
+
+    @PrePersist
+    protected void onCreate() {
+        Instant now = Instant.now();
+        this.createdAt = now;
+        this.updatedAt = now;
     }
-    // Getter 和 Setter
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAt = Instant.now();
+    }
+
     public Long getId() {
         return id;
     }
@@ -36,18 +77,18 @@ public class Todo {
     }
 
     public boolean isCompleted() {
-        return isCompleted;
+        return completed;
     }
 
     public void setCompleted(boolean completed) {
-        isCompleted = completed;
+        this.completed = completed;
     }
 
-    public String getPriority() {
+    public TodoPriority getPriority() {
         return priority;
     }
 
-    public void setPriority(String priority) {
+    public void setPriority(TodoPriority priority) {
         this.priority = priority;
     }
 
@@ -59,21 +100,27 @@ public class Todo {
         this.dueDate = dueDate;
     }
 
-    // 重写 equals() 和 hashCode() 方法
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public Instant getUpdatedAt() {
+        return updatedAt;
+    }
+
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Todo todo = (Todo) o;
-        return isCompleted == todo.isCompleted &&
-                Objects.equals(id, todo.id) &&
-                Objects.equals(description, todo.description) &&
-                Objects.equals(priority, todo.priority) &&
-                Objects.equals(dueDate, todo.dueDate);
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Todo todo)) {
+            return false;
+        }
+        return id != null && id.equals(todo.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, description, priority, dueDate, isCompleted);
+        return getClass().hashCode();
     }
 }

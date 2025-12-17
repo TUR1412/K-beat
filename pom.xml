@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>org.example</groupId>
-    <artifactId>SpuerBoot</artifactId>
+    <artifactId>k-beat</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>SpuerBoot</name>
-    <description>SpuerBoot</description>
+    <name>K-beat</name>
+    <description>K-beat - 一个带节拍感的待办应用（Spring Boot + FreeMarker）</description>
     <url/>
     <licenses>
         <license/>
@@ -36,7 +36,20 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-freemarker</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
