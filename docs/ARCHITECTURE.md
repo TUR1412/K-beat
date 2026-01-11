@@ -33,9 +33,11 @@ src/
       repository/        JPA Repository
       model/             JPA Entity / Enum
       config/            启动期初始化（如 data 目录准备）
+      observability/     请求ID/安全响应头/Server-Timing 等横切能力
     resources/
       templates/         FreeMarker 页面（index/error）
-      static/assets/     CSS/JS（缓存版本号通过 app.assets.version 控制）
+        partials/        原子设计：页面级 layout/partials（head/topbar/foot）
+      static/assets/     CSS/JS（缓存版本号通过 app.assets.version 控制）       
   test/
     java/...             Controller/API 测试
     resources/           测试环境配置（H2 内存库）
@@ -59,4 +61,10 @@ src/
 - 任何关键操作都有 **纯表单** 路径（POST + redirect）
 - JS 只是在 `fetch` 可用时“拦截并升级体验”，失败则回到表单提交
 - UI 不渲染原始 JSON；API 错误转换为友好 toast 文案
+
+## 可观测性（Observability）与性能
+
+- 关联 ID：所有响应均返回 `X-Request-Id`，API 错误体包含 `request_id`，错误页展示 `requestId` 便于排查
+- `Server-Timing`：响应头提供简易耗时信息，方便快速定位慢请求
+- Actuator：提供健康检查与指标（生产环境建议走内网或加鉴权）
 

@@ -46,6 +46,20 @@
     }
   }
 
+  function bindGlobalErrorBoundary() {
+    let shown = false;
+    const notify = () => {
+      if (shown) {
+        return;
+      }
+      shown = true;
+      showToast("页面发生错误，请刷新后重试", "error", 4200);
+    };
+
+    window.addEventListener("error", notify);
+    window.addEventListener("unhandledrejection", notify);
+  }
+
   function setTheme(theme) {
     document.body.dataset.theme = theme;
     safeStorageSet(THEME_KEY, theme);
@@ -655,6 +669,7 @@
   }
 
   initTheme();
+  bindGlobalErrorBoundary();
   bindThemeToggle();
   bindFilterChips();
   bindFocusInput();

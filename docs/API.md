@@ -77,9 +77,13 @@ Body（JSON）：
 ```json
 {
   "message": "未找到待办事项（id=123）",
-  "actionable_suggestion": "请刷新列表或确认该待办是否已被删除"
+  "actionable_suggestion": "请刷新列表或确认该待办是否已被删除",
+  "request_id": "3d5f5b65-4c1e-4b9d-9d1f-0f0ccbc98c37"
 }
 ```
 
-这两个字段用于前端将错误翻译为“人话提示”，避免把异常堆栈暴露给用户。
+说明：
+
+- `request_id` 与响应头 `X-Request-Id` 一致，可用于日志关联与问题定位。
+- 这些字段用于前端将错误翻译为“人话提示”，避免把异常堆栈暴露给用户。
 

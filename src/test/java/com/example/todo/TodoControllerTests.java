@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -38,6 +39,7 @@ class TodoControllerTests {
     void testGetTodos() throws Exception {
         mockMvc.perform(get("/todos"))
                 .andExpect(status().isOk())
+                .andExpect(header().exists("X-Request-Id"))
                 .andExpect(view().name("index"))
                 .andExpect(model().attributeExists("todos"));
     }
@@ -51,6 +53,7 @@ class TodoControllerTests {
                         .param("priority", TodoPriority.HIGH.name())
                         .param("dueDate", dueDate.toString()))
                 .andExpect(status().is3xxRedirection())
+                .andExpect(header().exists("X-Request-Id"))
                 .andExpect(redirectedUrl("/todos"));
 
         assertThat(todoRepository.findAll()).hasSize(1);
@@ -67,6 +70,7 @@ class TodoControllerTests {
 
         mockMvc.perform(post("/todos/complete/" + todo.getId()))
                 .andExpect(status().is3xxRedirection())
+                .andExpect(header().exists("X-Request-Id"))
                 .andExpect(redirectedUrl("/todos"));
 
         Todo updated = todoRepository.findById(todo.getId()).orElseThrow();
@@ -82,6 +86,7 @@ class TodoControllerTests {
 
         mockMvc.perform(post("/todos/reopen/" + todo.getId()))
                 .andExpect(status().is3xxRedirection())
+                .andExpect(header().exists("X-Request-Id"))
                 .andExpect(redirectedUrl("/todos"));
 
         Todo updated = todoRepository.findById(todo.getId()).orElseThrow();
@@ -95,6 +100,7 @@ class TodoControllerTests {
 
         mockMvc.perform(post("/todos/delete/" + todo.getId()))
                 .andExpect(status().is3xxRedirection())
+                .andExpect(header().exists("X-Request-Id"))
                 .andExpect(redirectedUrl("/todos"));
 
         assertThat(todoRepository.findAll()).isEmpty();

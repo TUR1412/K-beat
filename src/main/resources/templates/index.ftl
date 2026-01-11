@@ -1,28 +1,10 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="color-scheme" content="light dark">
-    <title>K-beat · 待办清单</title>
-    <link rel="stylesheet" href="/assets/app.css?v=${assetsVersion}">
-    <script src="/assets/app.js?v=${assetsVersion}" defer></script>
-</head>
-<body data-today="${today?string('yyyy-MM-dd')}">
-<header class="topbar" role="banner">
-    <div class="brand">
-        <div class="brand-mark" aria-hidden="true">K</div>
-        <div class="brand-text">
-            <div class="brand-title">K-beat</div>
-            <div class="brand-subtitle">把每件事都打在节拍上</div>
-        </div>
-    </div>
-    <div class="topbar-actions">
-        <button id="themeToggle" class="icon-button" type="button" aria-label="切换主题" title="切换主题">
-            <span class="icon-button__dot" aria-hidden="true"></span>
-        </button>
-    </div>
-</header>
+<#assign pageTitle = "K-beat · 待办清单">
+<#assign pageDescription = "K-beat 是一个带节拍感的待办清单：服务端渲染为主 + 渐进增强 + 持久化数据。">
+<#assign bodyDataToday = today?string("yyyy-MM-dd")>
+<#assign topbarTitle = "K-beat">
+<#assign topbarSubtitle = "把每件事都打在节拍上">
+<#include "partials/_head.ftl">
+<#include "partials/_topbar.ftl">
 
 <main class="container" role="main">
     <section class="bento" aria-label="K-beat 主面板">
@@ -174,6 +156,4 @@
     </section>
 </main>
 
-<div id="toastHost" class="toast-host" aria-live="polite" aria-atomic="true"></div>
-</body>
-</html>
+<#include "partials/_foot.ftl">

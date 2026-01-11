@@ -1,28 +1,9 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="color-scheme" content="light dark">
-    <title>K-beat · 出错了</title>
-    <link rel="stylesheet" href="/assets/app.css?v=${assetsVersion!'dev'}">
-    <script src="/assets/app.js?v=${assetsVersion!'dev'}" defer></script>
-</head>
-<body>
-<header class="topbar" role="banner">
-    <div class="brand">
-        <div class="brand-mark" aria-hidden="true">K</div>
-        <div class="brand-text">
-            <div class="brand-title">K-beat</div>
-            <div class="brand-subtitle">服务器开小差了，我们马上回来</div>
-        </div>
-    </div>
-    <div class="topbar-actions">
-        <button id="themeToggle" class="icon-button" type="button" aria-label="切换主题" title="切换主题">
-            <span class="icon-button__dot" aria-hidden="true"></span>
-        </button>
-    </div>
-</header>
+<#assign pageTitle = "K-beat · 出错了">
+<#assign pageDescription = "K-beat 错误页：提供友好提示与请求ID，便于快速定位问题。">
+<#assign topbarTitle = "K-beat">
+<#assign topbarSubtitle = "服务器开小差了，我们马上回来">
+<#include "partials/_head.ftl">
+<#include "partials/_topbar.ftl">
 
 <main class="container" role="main">
     <section class="card card--list" style="--i: 0" aria-label="错误信息">
@@ -44,11 +25,14 @@
                     <div class="stat-value">${path!'-'}</div>
                     <div class="stat-label">路径</div>
                 </div>
+                <div class="stat">
+                    <div class="stat-value">${requestId!'-'}</div>
+                    <div class="stat-label">请求ID</div>
+                </div>
             </div>
 
             <a class="btn btn--primary" href="/todos" style="margin-top: 14px; text-decoration: none;">返回待办列表</a>
         </div>
     </section>
 </main>
-</body>
-</html>
+<#include "partials/_foot.ftl">

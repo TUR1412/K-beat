@@ -22,6 +22,7 @@ macOS / Linux：
 
 - 页面：`/todos`
 - API：`/api/todos`
+- 健康检查：`/actuator/health`
 
 ## Jar 运行
 
@@ -57,3 +58,13 @@ docker run --rm -p 8080:8080 -v "${PWD}/data:/app/data" k-beat:latest
 默认使用 H2 文件库（`./data/kbeat`）：
 
 - 要“清库重来”：删除 `data/` 目录即可（已在 `.gitignore` 中忽略）
+
+## 观测与排障（可选）
+
+本项目启用 Actuator 与 Prometheus registry（见 `application.properties`）：
+
+- `/actuator/health`：健康检查
+- `/actuator/metrics`：运行时指标（Micrometer）
+- `/actuator/prometheus`：Prometheus 抓取端点
+
+提示：生产环境建议将 Actuator 仅暴露到内网或增加鉴权。
